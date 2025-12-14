@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>NSE Market Equity — Live Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='brocode.css') }}">
+
+    <style>
+        body {
+            background: #d7dbdf;
+            color: #fff;
+            padding: 20px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .header-bar {
+            background: linear-gradient(90deg, #0e2539, #12344d);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .header-bar h2 {
+            color: #4ade80;
+            margin: 0;
+        }
+
+        .card-box {
+            background: #0e2539;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        table th,
+        table td {
+            padding: 6px 10px !important;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        table thead th {
+            background-color: #12344d !important;
+            color: #4ade80 !important;
+            cursor: pointer;
+        }
+
+        table tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .positive {
+            color: #4ade80 !important;
+            font-weight: 600;
+        }
+
+        .negative {
+            color: #f87171 !important;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header-bar">
+        <h2>📈 NSE Market Equity — Live Dashboard</h2>
+    </div>
+
+    <div class="card-box">
+        <form method="POST">
+            <label class="form-label">Select Preset Market Index:</label>
+            <select class="form-select mb-3" name="api_url" required>
+                {% for name, param in presets.items() %}
+                <option value="{{ param }}" {% if param == selected_index_param %}selected{% endif %}>{{ name }}
+                </option>
+                {% endfor %}
+            </select>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label">Custom Name / Title:</label>
+                    <input type="text" class="form-control mb-3" name="name" value="{{ custom_name }}">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Additional Notes:</label>
+                    <input type="text" class="form-control mb-3" name="details" value="{{ custom_details }}">
+                </div>
+
+                <div class="col-md-4 d-grid">
+                    <button type="submit" name="action" value="load" class="btn btn-success mt-4">
+                        🚀 Load Live Data
+                    </button>
+                </div>
+
+                <div class="col-md-4 d-grid">
+                    <button type="submit" name="action" value="top10" class="btn btn-primary mt-4">
+                        🔝 Show Top 10
+                    </button>
+                </div>
+
+                <div class="col-md-4 d-grid">
+                    <a href="/download" class="btn btn-warning mt-4">⬇ Download CSV</a>
+                </div>
+            </div>
+
+            <hr class="my-4" style="border-color:#4ade80;">
+
+            <!-- Best Stocks -->
+            <label class="form-label">Best Stocks (Rank by % Change)</label>
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="number" min="1" class="form-control mb-3" name="best_count"
+                        placeholder="Enter number of best stocks (optional)">
+                </div>
+                <div class="col-md-6 d-grid">
+                    <button type="submit" name="action" value="best" class="btn btn-info mb-3">
+                        🌟 Show Best Stocks
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    {% if table_html %}
+    <div class="card-box">
+        <h4 style="color:#4ade80;">📊 {{ custom_name }}</h4>
+        <p>{{ custom_details }}</p>
+
+        <div class="table-responsive">
+            {{ table_html | safe }}
+        </div>
+    </div>
+    {% endif %}
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () =>
+        {
+            document.querySelectorAll("table th").forEach((header, index) =>
+            {
+                const colName = header.innerText.trim().toLowerCase();
+
+                if (colName === "change" || colName === "pchange")
+                {
+                    let asc = true;
+                    header.addEventListener("click", () =>
+                    {
+                        const tbody = header.closest("table").querySelector("tbody");
+                        const rows = Array.from(tbody.querySelectorAll("tr"));
+
+                        rows.sort((a, b) =>
+                        {
+                            let A = parseFloat(a.children[index].innerText.replace(/,/g, '').replace('%', '').trim());
+                            let B = parseFloat(b.children[index].innerText.replace(/,/g, '').replace('%', '').trim());
+                            return asc ? A - B : B - A;
+                        });
+
+                        asc = !asc;
+                        rows.forEach(row => tbody.appendChild(row));
+                    });
+                }
+            });
+        });
+    </script>
+
+    <!-- Brocode widget (unchanged) -->
+    <div id="brocode-widget">
+        <div id="brocode-header">
+            🤖 Brocode AI
+            <span id="brocode-close">✖</span>
+        </div>
+        <div id="brocode-chatlog"></div>
+        <div id="brocode-input-box">
+            <input id="brocode-input" type="text" placeholder="Ask Brocode anything...">
+            <button id="brocode-send">➤</button>
+        </div>
+    </div>
+
+    <div id="brocode-button">🤖</div>
+    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+    <script src="{{ url_for('static', filename='brocode.js') }}"></script>
+    <script src="{{ url_for('static', filename='brocode-chat.js') }}"></script>
+
+</body>
+
+</html>

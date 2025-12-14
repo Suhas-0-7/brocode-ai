@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{{ symbol }} — Live Intraday</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f8fafb;
+            color: #0e2539;
+            font-family: "Segoe UI", Roboto, Arial, sans-serif;
+            padding: 14px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .symbol-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0e2539;
+        }
+
+        .range-group .btn {
+            margin-left: 6px;
+        }
+
+        .chart-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 12px;
+            box-shadow: 0 6px 22px rgba(16, 24, 40, 0.06);
+            position: relative;
+        }
+
+        #tvchart {
+            height: 520px;
+            width: 100%;
+            min-height: 240px;
+        }
+
+        #tooltip {
+            position: absolute;
+            pointer-events: none;
+            z-index: 2000;
+            background: rgba(12, 24, 35, 0.92);
+            color: #dff9ea;
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            transform: translate(-50%, -120%);
+            display: none;
+            box-shadow: 0 6px 18px rgba(16, 24, 40, 0.25);
+            white-space: nowrap;
+        }
+
+        .no-data {
+            padding: 40px;
+            text-align: center;
+            color: #6b7280;
+        }
+
+        @media (max-width:720px) {
+            #tvchart {
+                height: 380px;
+            }
+
+            .symbol-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="page-header">
+            <div class="symbol-title">{{ symbol }} — Live Intraday</div>
+            <div class="range-group">
+                <button class="btn btn-outline-secondary range-btn active" data-range="1D">1D</button>
+                <button class="btn btn-outline-secondary range-btn" data-range="1W">1W</button>
+                <button class="btn btn-outline-secondary range-btn" data-range="1M">1M</button>
+                <button class="btn btn-outline-secondary range-btn" data-range="1Y">1Y</button>
+            </div>
+        </div>
+
+        <div class="chart-card position-relative">
+            <div id="tvchart"></div>
+            <div id="tooltip"></div>
+            <div id="no-data" class="no-data" style="display:none;">No chart data available for this symbol/time range.
+            </div>
+        </div>
+    </div>
+
+    <script>window.SYMBOL = "{{ symbol }}";</script>
+
+    <!-- Lightweight Charts (standalone minified) + Socket.IO -->
+    <script src="https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.7.2/dist/socket.io.min.js"></script>
+
+    <!-- chart client (static) -->
+    <script src="{{ url_for('static', filename='chart-client.js') }}"></script>
+    <script src="{{ url_for('static', filename='brocode-chat.js') }}"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,128 @@
+/* static/details.css - NSE style area chart + orderbook */
+:root {
+    --bg: #ffffff;
+    --dark-bg: #071826;
+    --panel: #0e2d38;
+    --muted: #9fb3be;
+    --accent: #16a34a;
+    /* green */
+    --accent-2: #60a5fa;
+    /* blue */
+    --card: #071a23;
+}
+
+body {
+    background: var(--bg);
+    color: #0b1220;
+    font-family: "Segoe UI", system-ui, -apple-system, "Roboto", "Helvetica Neue", Arial;
+}
+
+/* container */
+.page-root {
+    max-width: 1200px;
+}
+
+/* header */
+.header-card {
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid rgba(6, 95, 70, 0.06);
+}
+
+.symbol-title {
+    color: #0b6e2b;
+    margin-bottom: 6px;
+}
+
+.meta-row .meta-item {
+    margin-right: 14px;
+    color: #264653;
+    font-size: 0.95rem;
+}
+
+/* main card */
+.card-dark {
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1px solid rgba(15, 23, 42, 0.04);
+}
+
+/* accent */
+.text-accent {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+/* chart wrapper */
+.chart-wrapper {
+    background: linear-gradient(180deg, #ffffff, #f6fbff);
+    border: 1px solid rgba(18, 52, 77, 0.04);
+    border-radius: 6px;
+    padding: 8px;
+    height: 100%;
+}
+
+/* range controls */
+.btn-range {
+    border-radius: 12px;
+    background: transparent;
+    border: 1px solid rgba(6, 95, 70, 0.08);
+    color: #0b6e2b;
+    padding: 6px 10px;
+    margin-left: 6px;
+}
+
+.btn-range.active {
+    background: var(--accent);
+    color: white;
+}
+
+/* orderbook */
+.orderbook-panel {
+    background: #fff;
+    border-radius: 6px;
+    border: 1px solid rgba(15, 23, 42, 0.03);
+}
+
+.orderbook-grid {
+    display: flex;
+    gap: 12px;
+}
+
+.orderbook-col {
+    flex: 1;
+}
+
+.orderbook-col .col-title {
+    font-size: 0.85rem;
+    color: #6b7280;
+    margin-bottom: 6px;
+}
+
+.orderbook-col ul li {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 8px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+    background: rgba(2, 6, 23, 0.02);
+}
+
+.orderbook-col.bids ul li {
+    color: #0b6622;
+}
+
+.orderbook-col.asks ul li {
+    color: #9f1239;
+}
+
+/* raw meta */
+.raw-meta {
+    background: #071a23;
+    color: #9ae6b4;
+    padding: 12px;
+    border-radius: 6px;
+    font-family: monospace;
+    font-size: 0.87rem;
+    white-space: pre-wrap;
+}

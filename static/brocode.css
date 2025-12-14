@@ -1,0 +1,86 @@
+#brocode-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 55px;
+    height: 55px;
+    background-color: #4ade80;
+    color: black;
+    font-size: 28px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 2000;
+    box-shadow: 0px 0px 12px #4ade80;
+    transition: 0.2s;
+}
+
+#brocode-button:hover {
+    transform: scale(1.15);
+}
+
+#brocode-widget {
+    width: 350px;
+    height: 430px;
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    display: none;
+    /* default hidden */
+    background: #0e2539;
+    border: 2px solid #4ade80;
+    border-radius: 12px;
+    z-index: 3000;
+
+    /* 👉 The MOST IMPORTANT FIX 👇 */
+    display: flex;
+    flex-direction: column;
+}
+
+#brocode-header {
+    background: #4ade80;
+    color: #103020;
+    font-weight: bold;
+    padding: 10px;
+    text-align: center;
+}
+
+#brocode-close {
+    cursor: pointer;
+    float: right;
+}
+
+#brocode-chatlog {
+    height: 320px;
+    padding: 10px;
+    overflow-y: auto;
+    color: white;
+    font-size: 14px;
+}
+
+#brocode-input-box {
+    display: flex;
+    gap: 5px;
+    padding: 10px;
+    background: #12344d;
+}
+
+#brocode-input {
+    flex: 1;
+    border-radius: 5px;
+    border: none;
+    padding: 6px;
+    background: white;
+    color: black;
+}
+
+#brocode-send {
+    background: #4ade80;
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 6px;
+    font-weight: bold;
+}
