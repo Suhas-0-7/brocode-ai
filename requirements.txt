@@ -3,3 +3,5 @@ pandas
 yfinance
 gunicorn
 python-dotenv
+flask-socketio
+eventlet
